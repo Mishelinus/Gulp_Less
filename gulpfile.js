@@ -27,7 +27,12 @@ function styles() {
     return gulp.src(paths.styles.src)
     .pipe(sourcemaps.init())
     .pipe(less())
-    .pipe(cleanCSS())  //+ минификация
+    .pipe(autoprefixer({
+        cascade: false
+    }))
+    .pipe(cleanCSS({
+        level: 2
+    }))  //+ минификация
     .pipe(rename({
         basename: 'main',
         suffix: '.min'
@@ -39,7 +44,9 @@ function styles() {
 function scripts() {
     return gulp.src(paths.scripts.src)
     .pipe(sourcemaps.init())
-    .pipe(babel())
+    .pipe(babel({
+        presets: ['@babel/env']
+    }))
     .pipe(uglify())
     .pipe(concat('main.min.js'))
     .pipe(sourcemaps.write())
