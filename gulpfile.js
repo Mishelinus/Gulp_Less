@@ -6,6 +6,7 @@ const babel = require('gulp-babel')
 const uglify = require('gulp-uglify')
 const concat = require('gulp-concat') 
 const sourcemaps = require('gulp-sourcemaps')
+const autoprefixer = require('gulp-autoprefixer')
 const del = require('del')
 
 const paths = {
@@ -41,6 +42,7 @@ function scripts() {
     .pipe(babel())
     .pipe(uglify())
     .pipe(concat('main.min.js'))
+    .pipe(sourcemaps.write())
     .pipe(gulp.dest(paths.scripts.dest))
 }
 
