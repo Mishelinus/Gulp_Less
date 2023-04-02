@@ -15,3 +15,5 @@
 [del] удаление каталогов и файлов  
 [gulp-sourcemaps] Построение карты файлов  
 [gulp-autoprefixer] добавление префиксов для различных браузеров  
+[babel-preset-env] дополнение к Babel  
+[gulp-imagemin] сжатие изображений

@@ -7,6 +7,7 @@ const uglify = require('gulp-uglify')
 const concat = require('gulp-concat') 
 const sourcemaps = require('gulp-sourcemaps')
 const autoprefixer = require('gulp-autoprefixer')
+const imagemin = require('gulp-imagemin')
 const del = require('del')
 
 const paths = {
@@ -17,6 +18,10 @@ const paths = {
     scripts: {
         src: 'src/scripts/**/*.js',
         dest: 'dist/js/'
+    },
+    images: {
+        src: 'src/img/*',
+        dest: 'dist/img'
     }
 }
 
@@ -37,7 +42,7 @@ function styles() {
         basename: 'main',
         suffix: '.min'
     }))
-    .pipe(sourcemaps.write())
+    .pipe(sourcemaps.write('.'))
     .pipe(gulp.dest(paths.styles.dest))
 }
 
@@ -49,8 +54,16 @@ function scripts() {
     }))
     .pipe(uglify())
     .pipe(concat('main.min.js'))
-    .pipe(sourcemaps.write())
+    .pipe(sourcemaps.write('.'))
     .pipe(gulp.dest(paths.scripts.dest))
+}
+
+function img() {
+    return gulp.src(paths.images.src)
+    .pipe(imagemin({
+        progressive: true
+    }))
+    .pipe(gulp.dest(paths.images.dest))
 }
 
 function whatch() {
@@ -58,9 +71,10 @@ function whatch() {
     gulp.watch(paths.scripts.src, scripts)
 }
 
-const build = gulp.series(clean, gulp.parallel(styles, scripts), whatch)
+const build = gulp.series(clean, gulp.parallel(styles, scripts, img), whatch)
 
 exports.clean = clean
+exports.img = img
 exports.styles = styles
 exports.scripts = scripts
 exports.whatch = whatch
