@@ -34,10 +34,12 @@ const paths = {
 
 }
 
+// Очистить каталог dist, удалить все кроме изображений
 function clean() {
     return del(['dist/*', '!dist/img'])
 }
 
+// Обработка html и pug
 function html() {
     return gulp.src(paths.html.src)
     .pipe(htmlmin({
@@ -47,13 +49,14 @@ function html() {
     .pipe(browserSync.stream());
 }
 
+// Обработка препроцессоров стилей
 function styles() {
     return gulp.src(paths.styles.src)
     .pipe(sourcemaps.init())
 
     //.pipe(less())
     .pipe(sass().on('error', sass.logError))
-    
+
     .pipe(autoprefixer({
         cascade: false
     }))
@@ -69,6 +72,7 @@ function styles() {
     .pipe(browserSync.stream());
 }
 
+// Обработка Java Script
 function scripts() {
     return gulp.src(paths.scripts.src)
     .pipe(sourcemaps.init())
@@ -82,6 +86,7 @@ function scripts() {
     .pipe(browserSync.stream());
 }
 
+// Сжатие изображений
 function img() {
     return gulp.src(paths.images.src)
     .pipe(newer(paths.images.dest))
@@ -91,6 +96,7 @@ function img() {
     .pipe(gulp.dest(paths.images.dest))
 }
 
+// Отслеживание изменений в файлах и запуск лайв сервера
 function watch() {
     browserSync.init({
         server: {
@@ -105,8 +111,11 @@ function watch() {
     
 }
 
+// Таск, который выполняется по команде gulp
 const build = gulp.series(clean, html, gulp.parallel(styles, scripts, img), watch)
 
+
+// Таски для ручного запуска с помощью gulp clean, gulp html и т.д.
 exports.clean = clean
 exports.img = img
 exports.html = html
