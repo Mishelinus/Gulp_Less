@@ -6,4 +6,5 @@ class people {
 let b = new people()
 b.sayhi()
 let a = "Hello"
-console.log(a)
+alert(f)
+

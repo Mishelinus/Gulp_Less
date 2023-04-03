@@ -10,6 +10,7 @@ const autoprefixer = require('gulp-autoprefixer')
 const imagemin = require('gulp-imagemin')
 const htmlmin =require('gulp-htmlmin')
 const newer = require('gulp-newer')
+const browserSync = require('browser-sync').create();
 const del = require('del')
 
 const paths = {
@@ -22,7 +23,7 @@ const paths = {
         dest: 'dist/js/'
     },
     images: {
-        src: 'src/img/*',
+        src: 'src/img/**',
         dest: 'dist/img'
     },
     html: {
@@ -42,6 +43,7 @@ function html() {
         collapseWhitespace: true
     }))
     .pipe(gulp.dest(paths.html.dest))
+    .pipe(browserSync.stream());
 }
 
 function styles() {
@@ -55,11 +57,12 @@ function styles() {
         level: 2
     }))  //+ минификация
     .pipe(rename({
-        basename: 'main',
+        basename: 'style',
         suffix: '.min'
     }))
     .pipe(sourcemaps.write('.'))
     .pipe(gulp.dest(paths.styles.dest))
+    .pipe(browserSync.stream());
 }
 
 function scripts() {
@@ -72,6 +75,7 @@ function scripts() {
     .pipe(concat('main.min.js'))
     .pipe(sourcemaps.write('.'))
     .pipe(gulp.dest(paths.scripts.dest))
+    .pipe(browserSync.stream());
 }
 
 function img() {
@@ -83,19 +87,28 @@ function img() {
     .pipe(gulp.dest(paths.images.dest))
 }
 
-function whatch() {
+function watch() {
+    browserSync.init({
+        server: {
+            baseDir: "./dist"
+        }
+    })
+    gulp.watch(paths.html.dest).on('change', browserSync.reload)
+    gulp.watch(paths.html.src, html)
     gulp.watch(paths.styles.src, styles)
     gulp.watch(paths.scripts.src, scripts)
+    gulp.watch(paths.images.src, img)
+    
 }
 
-const build = gulp.series(clean, html, gulp.parallel(styles, scripts, img), whatch)
+const build = gulp.series(clean, html, gulp.parallel(styles, scripts, img), watch)
 
 exports.clean = clean
 exports.img = img
 exports.html = html
 exports.styles = styles
 exports.scripts = scripts
-exports.whatch = whatch
+exports.watch = watch
 exports.build = build
 exports.default = build
 

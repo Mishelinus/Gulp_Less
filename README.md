@@ -18,5 +18,6 @@
 [babel-preset-env] дополнение к Babel  
 [gulp-imagemin] сжатие изображений  
 [gulp-htmlmin] минификация HTML файлов  
-[gulp-newer] сжатие только новых изображений  
+[gulp-newer] сжатие только новых изображений 
+[browser-sync@2.27.5] перезагрузка браузера при изменении файлов + [browser-sync-client@2.27.9] выше вызывает ошибки
 
