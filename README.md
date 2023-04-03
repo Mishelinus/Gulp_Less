@@ -1,10 +1,8 @@
 # Сборка Gulp под простые задачи с препроцессорами LESS и SASS
 
 ## структура каталогов файлов и стилей
->./src/styles/\*\*/\*.less  
->./src/styles/\*\*/\*.sass  
->./src/scripts/\*\*/\*.js  
->./src/img     
+>./src/styles/\*\*/\*.less, *.sass, *.scss 
+>./src/img/\*\*/\*.jpg, *.png     
 
 ## Установленные пакеты
 [gulp] Сборщик gulp  
