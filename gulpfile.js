@@ -1,5 +1,6 @@
 const gulp = require('gulp')
 const less = require('gulp-less')
+const sass = require('gulp-sass')(require('sass'))
 const rename = require('gulp-rename')
 const cleanCSS = require('gulp-clean-css')
 const babel = require('gulp-babel')
@@ -15,7 +16,7 @@ const del = require('del')
 
 const paths = {
     styles: {
-      src: 'src/styles/**/*.less',
+      src: ['src/styles/**/*.sass', 'src/styles/**/*.scss', 'src/styles/**/*.less'],
       dest: 'dist/css/'
     },
     scripts: {
@@ -49,7 +50,10 @@ function html() {
 function styles() {
     return gulp.src(paths.styles.src)
     .pipe(sourcemaps.init())
-    .pipe(less())
+
+    //.pipe(less())
+    .pipe(sass().on('error', sass.logError))
+    
     .pipe(autoprefixer({
         cascade: false
     }))
